@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<server description="DO NOT MODIFY">
+
+    <library id="db2Lib" description="IBM Data Server Driver for JDBC and SQLJ">
+        <fileset dir="D:\Users\Sukant.Tiwari\Developer\drivers\db2jar" includes="*.jar"/>
+    </library>
+    <jdbcDriver libraryRef="db2Lib" id="db2Driver"/>
+</server>

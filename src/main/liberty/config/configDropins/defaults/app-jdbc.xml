@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<server description="DO NOT MODIFY.">
+    <dataSource id="default" jndiName="db2/dataSource" jdbcDriverRef="db2Driver" connectionManagerRef="default">
+        <properties.db2.jcc databaseName="${datasource.database.name}"
+                            password="${datasource.password}" portNumber="${datasource.port}"
+                            serverName="${datasource.host.name}" user="${datasource.user}"/>
+    </dataSource>
+
+</server>

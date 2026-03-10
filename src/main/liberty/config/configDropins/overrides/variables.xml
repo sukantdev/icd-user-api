@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<server description="">
+    <variable name="datasource.user" value="CXAPQ869" />
+    <variable name="datasource.database.name" value="CDNXDB2Q"/>
+    <variable name="datasource.host.name" value="bwzsysb.comdata.local"/>
+    <variable name="datasource.port" value="346"/>
+
+    <variable name="okta.issuer.url" value="https://fleetcor-icd.oktapreview.com/oauth2/ausqshf67A1mtp98d0x6" />
+    <variable name="okta.audience" value="iconnectdata.com" />
+</server>

@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<server
+        description="DO NOT MODIFY. You are not allowed to make change in this config file.">
+
+    <variable name="domain.names" defaultValue="iconnectdata.com|.fleetcor.com|corpay.com"/>
+    <variable name="httpsession.maxinmemorysessioncount" defaultValue="1000"/>
+
+    <ssl id="defaultSSLConfig" sslProtocol="TLSv1.3,TLSv1.2" trustDefaultCerts="true" enforceCipherOrder="true"/>
+
+    <httpDispatcher enableWelcomePage="false"/>
+
+    <httpEndpoint id="defaultHttpEndpoint" httpPort="${http.port}" httpsPort="${https.port}" host="*">
+        <headers>
+            <set>X-Content-Type-Options: nosniff</set>
+            <setIfMissing>X-Frame-Options: SAMEORIGIN</setIfMissing>
+        </headers>
+    </httpEndpoint>
+
+    <httpOptions removeServerHeader="true" id="defaultHttpOptions"/>
+
+    <webAppSecurity ssoRequiresSSL="true"
+                    httpOnlyCookies="true" trackLoggedOutSSOCookies="true"
+                    logoutPageRedirectDomainNames="${domain.names}"
+                    ssoDomainNames="${domain.names}"
+                    wasReqURLRedirectDomainNames="${domain.names}"/>
+
+    <webContainer disableXPoweredBy="true"
+                  addStrictTransportSecurityHeader="max-age=31536000; includeSubDomains; preload"/>
+
+    <connectionManager id="default" agedTimeout="30m" connectionTimeout="7s" maxPoolSize="3" minPoolSize="1"
+                       enableContainerAuthForDirectLookups="true"/>
+
+    <applicationManager autoExpand="true"/>
+</server>

@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<server description="">
+
+  <application location="chatbot-api.war" type="war" context-root="chatbot-api">
+    <application-bnd>
+      <security-role name="AUTHENTICATED">
+        <special-subject type="ALL_AUTHENTICATED_USERS"/>
+      </security-role>
+    </application-bnd>
+  </application>
+
+  <mpJwt id="oktaJwt"
+         issuer="${okta.issuer.url}"
+         audiences="${okta.audience}"
+         jwksUri="${okta.issuer.url}/v1/keys"
+         tokenHeader="Authorization"
+         userNameAttribute="sub"
+         groupNameAttribute="groups">
+  </mpJwt>
+
+  <webAppSecurity allowFailOverToBasicAuth="false"/>
+
+</server>

@@ -1,0 +1,114 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
+  <modelVersion>4.0.0</modelVersion>
+  <groupId>com.corpay</groupId>
+  <artifactId>user</artifactId>
+  <version>0.0.1-SNAPSHOT</version>
+  <packaging>war</packaging>
+  
+  <properties>
+    <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+    <maven.compiler.source>17</maven.compiler.source>
+    <maven.compiler.target>17</maven.compiler.target>
+    <okta.version>16.0.0</okta.version>
+    <okta.jwt.version>0.5.7</okta.jwt.version>
+  </properties>
+  
+  <dependencyManagement>
+    <dependencies>
+      <!-- Jakarta EE 10 BOM -->
+      <dependency>
+        <groupId>jakarta.platform</groupId>
+        <artifactId>jakarta.jakartaee-bom</artifactId>
+        <version>10.0.0</version>
+        <type>pom</type>
+        <scope>import</scope>
+      </dependency>
+    </dependencies>
+  </dependencyManagement>
+  
+  <dependencies>
+    <!-- Jakarta REST API -->
+    <dependency>
+      <groupId>jakarta.ws.rs</groupId>
+      <artifactId>jakarta.ws.rs-api</artifactId>
+      <scope>provided</scope>
+    </dependency>
+    
+    <!-- Jakarta CDI -->
+    <dependency>
+      <groupId>jakarta.enterprise</groupId>
+      <artifactId>jakarta.enterprise.cdi-api</artifactId>
+      <scope>provided</scope>
+    </dependency>
+    
+    <!-- Jakarta Servlet API -->
+    <dependency>
+      <groupId>jakarta.servlet</groupId>
+      <artifactId>jakarta.servlet-api</artifactId>
+      <scope>provided</scope>
+    </dependency>
+    
+    <!-- Jakarta Annotation API -->
+    <dependency>
+      <groupId>jakarta.annotation</groupId>
+      <artifactId>jakarta.annotation-api</artifactId>
+      <scope>provided</scope>
+    </dependency>
+    
+    <!-- MicroProfile Config API -->
+    <dependency>
+      <groupId>org.eclipse.microprofile.config</groupId>
+      <artifactId>microprofile-config-api</artifactId>
+      <version>3.0.3</version>
+      <scope>provided</scope>
+    </dependency>
+    
+    <!-- Okta JWT Verifier for validating Okta access tokens -->
+    <dependency>
+      <groupId>com.okta.jwt</groupId>
+      <artifactId>okta-jwt-verifier</artifactId>
+      <version>${okta.jwt.version}</version>
+    </dependency>
+    <dependency>
+      <groupId>com.okta.jwt</groupId>
+      <artifactId>okta-jwt-verifier-impl</artifactId>
+      <version>${okta.jwt.version}</version>
+      <scope>runtime</scope>
+    </dependency>
+    
+    <!-- DAO Library -->
+    <dependency>
+      <groupId>com.corpay</groupId>
+      <artifactId>dao-lib</artifactId>
+      <version>0.0.1-SNAPSHOT</version>
+    </dependency>
+    
+    <!-- Security Library -->
+    <dependency>
+      <groupId>com.corpay</groupId>
+      <artifactId>security-lib</artifactId>
+      <version>0.0.1-SNAPSHOT</version>
+    </dependency>
+  </dependencies>
+  
+  <build>
+    <finalName>${project.artifactId}</finalName>
+    <plugins>
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-war-plugin</artifactId>
+        <version>3.4.0</version>
+        <configuration>
+          <failOnMissingWebXml>false</failOnMissingWebXml>
+        </configuration>
+      </plugin>
+      
+      <!-- Liberty Maven Plugin for embedded server -->
+      <plugin>
+        <groupId>io.openliberty.tools</groupId>
+        <artifactId>liberty-maven-plugin</artifactId>
+        <version>3.12.0</version>
+      </plugin>
+    </plugins>
+  </build>
+</project>

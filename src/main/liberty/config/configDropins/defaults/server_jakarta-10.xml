@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<server description="Jakarta EE 10 - Minimal Features">
+
+    <featureManager>
+        <feature>restfulWS-3.1</feature>
+        <feature>cdi-4.0</feature>
+        <feature>persistence-3.1</feature>
+        <feature>jdbc-4.3</feature>
+        <feature>mpConfig-3.0</feature>
+        <feature>jsonb-3.0</feature>
+        <feature>mpJwt</feature>
+    </featureManager>
+
+</server>
