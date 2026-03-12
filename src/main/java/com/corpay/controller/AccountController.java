@@ -1,5 +1,6 @@
-package com.corpay.user;
+package com.corpay.controller;
 
+import jakarta.annotation.security.RolesAllowed;
 import jakarta.ws.rs.*;
 import jakarta.ws.rs.core.Context;
 import jakarta.ws.rs.core.MediaType;
@@ -9,12 +10,10 @@ import jakarta.ws.rs.core.SecurityContext;
 import java.util.HashMap;
 import java.util.Map;
 
-import com.corpay.security.annotation.Secured;
-
 @Path("/account")
 @Produces(MediaType.APPLICATION_JSON)
 @Consumes(MediaType.APPLICATION_JSON)
-@Secured
+@RolesAllowed("AUTHENTICATED")
 public class AccountController {
     
     @GET

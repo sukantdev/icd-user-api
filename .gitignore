@@ -1,0 +1,55 @@
+# Maven
+/target/
+**/target/
+
+# IDEs
+/.idea/
+*.iml
+/.vscode/
+/.classpath
+/.project
+/.settings/
+
+# NetBeans
+/nbproject/private/
+/private/
+
+# Eclipse
+.settings/
+.metadata/
+.recommenders/
+
+# IntelliJ
+out/
+
+# VSCode
+.vscode/
+
+# Logs
+*.log
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# Java
+*.class
+*.jar
+*.war
+*.ear
+
+# Generated
+/generated/
+/generated-sources/
+
+# Temporary files
+*.tmp
+*.swp
+*~
+
+# Others
+.env
+node_modules/
+
+# Liberty plugin
+**/wlp/usr/servers/**/logs/

@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <server description="">
 
-  <application location="chatbot-api.war" type="war" context-root="chatbot-api">
+  <application location="user.war" type="war" context-root="user">
     <application-bnd>
       <security-role name="AUTHENTICATED">
         <special-subject type="ALL_AUTHENTICATED_USERS"/>

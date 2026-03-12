@@ -8,7 +8,7 @@
         <feature>jdbc-4.3</feature>
         <feature>mpConfig-3.0</feature>
         <feature>jsonb-3.0</feature>
-        <feature>mpJwt</feature>
+        <feature>mpJwt-2.1</feature>
     </featureManager>
 
 </server>
