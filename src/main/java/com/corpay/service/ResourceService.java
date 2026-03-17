@@ -1,33 +1,25 @@
 package com.corpay.service;
 
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 import java.util.Optional;
-import java.util.Set;
 import java.util.stream.Collectors;
 
+import org.eclipse.microprofile.config.Config;
+import org.eclipse.microprofile.config.ConfigProvider;
+
 import com.corpay.dao.cxxcow.Users;
-import com.corpay.dao.dbo.LinkResource;
 import com.corpay.dto.Menu;
 import com.corpay.repository.LinkResourceRepository;
-import com.corpay.repository.ResourceRepository;
 import com.corpay.repository.UserRepository;
 
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.inject.Inject;
-
-import org.eclipse.microprofile.config.Config;
-import org.eclipse.microprofile.config.ConfigProvider;
 
 @ApplicationScoped
 public class ResourceService {
 
     @Inject
     private UserRepository userRepository;
-
-    @Inject
-    private ResourceRepository resourceRepository;
 
     @Inject
     private LinkResourceRepository linkResourceRepository;
