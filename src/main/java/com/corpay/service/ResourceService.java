@@ -1,6 +1,8 @@
 package com.corpay.service;
 
 import java.util.Collections;
+import java.util.Comparator;
+import java.util.LinkedHashMap;
 import java.util.Map;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -26,7 +28,10 @@ public class ResourceService {
         Optional<Users> user = userRepository.findUser(oktaUid);
         if (user.isPresent()) {
             Map<String, Menu> menuMap = linkResourceRepository.findMenusForInternalUser(user.get().getUserId()).stream()
+                    .sorted(Comparator.comparingInt((com.corpay.dao.dbo.LinkResource linkResource) -> linkResource.getLevel0SortNbr())
+                            .thenComparingInt(linkResource -> linkResource.getLevel1SortNbr()))
                     .collect(Collectors.groupingBy(linkResource -> linkResource.getLevel1Desc(),
+                            LinkedHashMap::new,
                             Collectors.mapping(linkResource -> new Menu(linkResource.getLabelKey(), linkResource.getLinkUriAddr(), linkResource.getBehaviorCd().toString()), Collectors.toList())))
                     .entrySet().stream()
                     .collect(Collectors.toMap(Map.Entry::getKey, entry -> {
@@ -34,7 +39,7 @@ public class ResourceService {
                             return entry.getValue().get(0);
                         }
                         return new Menu(entry.getValue());
-                    }));
+                    }, (existing, replacement) -> existing, LinkedHashMap::new));
             return menuMap;
         } else {
             return Collections.emptyMap();
