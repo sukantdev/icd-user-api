@@ -6,75 +6,35 @@
 
     <!-- Named query kept in user-api (XML mapping) as requested. -->
     <named-query name="Users.findByIamId">
-        <query>SELECT u FROM Users u WHERE u.iamId = :iamId</query>
+        <query>SELECT users FROM Users users WHERE users.iamId = :iamId</query>
     </named-query>
 
     <named-native-query name="LinkResource.findMenusForInternalUser"
         result-class="com.corpay.dao.dbo.LinkResource">
         <query><![CDATA[
-WITH user_perms AS (
-    SELECT
-        rsrc_id,
-        ur_insert_fg
-    FROM cxxcow.users_resources
-    WHERE user_id = :userId
-)
-
 SELECT *
 FROM (
     SELECT
-        l.*,
+        linkResource.*,
         ROW_NUMBER() OVER (
             PARTITION BY
                 CASE
-                    WHEN l.label_key = 'icd_link_card_order_desc'
-                     AND l.link_uri_addr = '/cardorder/init'
-                    THEN 'CARD_ORDER'
-                    ELSE l.rsrc_id
+                    WHEN linkResource.label_key = 'icd_link_card_order_desc'
+                    AND linkResource.link_uri_addr = '/cardorder/init'
+                        THEN 'CARD_ORDER'
+                    ELSE linkResource.rsrc_id
                 END
-            ORDER BY l.level_0_sort_nbr
-        ) AS rn
-    FROM dbo.link_resource l
-    WHERE
-        l.level_0_sort_nbr > 0
-
-        AND NOT (
-            l.label_key = 'icd_link_pfyw_web'
-            AND NOT EXISTS (
-                SELECT 1
-                FROM user_perms up
-                WHERE up.rsrc_id = 'WEB-ICD-PFYW'
-            )
-        )
-
-        AND NOT (
-            l.label_key = 'icd_link_sftp_rpt'
-            AND NOT EXISTS (
-                SELECT 1
-                FROM user_perms up
-                WHERE up.rsrc_id = 'WEB-ICD-SFTP-CARD-RPT'
-            )
-        )
-
-        AND NOT (
-            l.label_key = 'icd_link_card_order_desc'
-            AND l.link_uri_addr = '/cardorder/init'
-            AND NOT (
-                EXISTS (
-                    SELECT 1
-                    FROM user_perms up
-                    WHERE up.rsrc_id = 'WEB-ICD-VCARD'
-                )
-                OR EXISTS (
-                    SELECT 1
-                    FROM user_perms up
-                    WHERE up.rsrc_id = 'WEB-ICD-CMAS-CARD'
-                    AND up.ur_insert_fg = 'Y'
-                )
-            )
-        )
-) t
-WHERE rn = 1
+            ORDER BY linkResource.level_0_sort_nbr
+        ) AS rowNumber
+    FROM dbo.link_resource linkResource
+    LEFT JOIN cxxcow.users_resources usersResources
+        ON usersResources.rsrc_id = linkResource.rsrc_id
+       AND usersResources.user_id = :userId
+    WHERE linkResource.level_0_sort_nbr > 0
+      AND linkResource.level_1_desc IS NOT NULL
+      AND linkResource.level_1_desc <> ''
+) linkResourceDeduped
+WHERE rowNumber = 1
 ORDER BY
     menu_flag DESC,
     level_0_sort_nbr,
