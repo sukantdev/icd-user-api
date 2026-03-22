@@ -1,11 +1,9 @@
 package com.corpay.service;
 
-import java.util.List;
+import java.util.Collections;
+import java.util.Map;
 import java.util.Optional;
 import java.util.stream.Collectors;
-
-import org.eclipse.microprofile.config.Config;
-import org.eclipse.microprofile.config.ConfigProvider;
 
 import com.corpay.dao.cxxcow.Users;
 import com.corpay.dto.Menu;
@@ -24,26 +22,22 @@ public class ResourceService {
     @Inject
     private LinkResourceRepository linkResourceRepository;
 
-    public List<Menu> findUserResources(String oktaUid) {
+    public Map<String, Menu> findUserResources(String oktaUid) {
         Optional<Users> user = userRepository.findUser(oktaUid);
         if (user.isPresent()) {
-            Config config = ConfigProvider.getConfig();
-            String labelPrefix = "icd_header_";
-            String iconSufix = "_icon";
-            List<Menu> menuList = linkResourceRepository.findMenusForInternalUser().stream()
-                    .map(resource -> {
-                        Menu menu = new Menu();
-                        String key = resource.getLabelKey();
-                        menu.setLabel(config.getValue(labelPrefix + key, String.class));
-                        menu.setIcon(config.getValue(labelPrefix + key + iconSufix, String.class));
-                        menu.setUrl(resource.getLinkUriAddr());
-                        menu.setWindow(resource.getBehaviorCd());
-                        return menu;
-                    })
-                    .collect(Collectors.toList());
-            return menuList;
+            Map<String, Menu> menuMap = linkResourceRepository.findMenusForInternalUser(user.get().getUserId()).stream()
+                    .collect(Collectors.groupingBy(linkResource -> linkResource.getLevel1Desc(),
+                            Collectors.mapping(linkResource -> new Menu(linkResource.getLabelKey(), linkResource.getLinkUriAddr(), linkResource.getBehaviorCd().toString()), Collectors.toList())))
+                    .entrySet().stream()
+                    .collect(Collectors.toMap(Map.Entry::getKey, entry -> {
+                        if (entry.getValue().size() == 1) {
+                            return entry.getValue().get(0);
+                        }
+                        return new Menu(entry.getValue());
+                    }));
+            return menuMap;
         } else {
-            return List.of();
+            return Collections.emptyMap();
         }
     }
 }

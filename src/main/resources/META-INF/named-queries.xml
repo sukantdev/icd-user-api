@@ -1,17 +1,21 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<entity-mappings xmlns="http://xmlns.jcp.org/xml/ns/persistence/orm"
+<entity-mappings xmlns="https://jakarta.ee/xml/ns/persistence/orm"
     xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-    xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/persistence/orm http://xmlns.jcp.org/xml/ns/persistence/orm_2_2.xsd"
-    version="2.2">
+    xsi:schemaLocation="https://jakarta.ee/xml/ns/persistence/orm https://jakarta.ee/xml/ns/persistence/orm/orm_3_0.xsd"
+    version="3.0">
 
     <!-- Named query kept in user-api (XML mapping) as requested. -->
+    <named-query name="Users.findByIamId">
+        <query>SELECT u FROM Users u WHERE u.iamId = :iamId</query>
+    </named-query>
+
     <named-native-query name="LinkResource.findMenusForInternalUser"
         result-class="com.corpay.dao.dbo.LinkResource">
         <query><![CDATA[
 WITH user_perms AS (
     SELECT
         rsrc_id,
-        insert_flg
+        ur_insert_fg
     FROM cxxcow.users_resources
     WHERE user_id = :userId
 )
@@ -34,7 +38,6 @@ FROM (
     WHERE
         l.level_0_sort_nbr > 0
 
-        -- PFYW rule
         AND NOT (
             l.label_key = 'icd_link_pfyw_web'
             AND NOT EXISTS (
@@ -44,7 +47,6 @@ FROM (
             )
         )
 
-        -- SFTP rule
         AND NOT (
             l.label_key = 'icd_link_sftp_rpt'
             AND NOT EXISTS (
@@ -54,7 +56,6 @@ FROM (
             )
         )
 
-        -- Card Order permission rule
         AND NOT (
             l.label_key = 'icd_link_card_order_desc'
             AND l.link_uri_addr = '/cardorder/init'
@@ -68,7 +69,7 @@ FROM (
                     SELECT 1
                     FROM user_perms up
                     WHERE up.rsrc_id = 'WEB-ICD-CMAS-CARD'
-                    AND up.insert_flg = 'Y'
+                    AND up.ur_insert_fg = 'Y'
                 )
             )
         )

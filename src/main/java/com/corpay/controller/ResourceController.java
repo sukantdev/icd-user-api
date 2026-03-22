@@ -1,6 +1,6 @@
 package com.corpay.controller;
 
-import java.util.List;
+import java.util.Map;
 
 import com.corpay.dto.Menu;
 import com.corpay.service.ResourceService;
@@ -29,8 +29,8 @@ public class ResourceController {
     public Response getResources(@Context SecurityContext securityContext) {
         String emailId = securityContext.getUserPrincipal().getName();
 
-        List<Menu> resourceSet = resourceService.findUserResources(emailId);
-        return Response.ok(resourceSet).build();
+        Map<String, Menu> menuMap = resourceService.findUserResources(emailId);
+        return Response.ok(menuMap).build();
     }
 }
     

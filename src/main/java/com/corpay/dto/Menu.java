@@ -3,35 +3,30 @@ package com.corpay.dto;
 import java.util.List;
 
 public class Menu {
-    private String label;    
-    private String icon;
+    private String key;
     private String url;
-    private char window;
-    private List<Menu> menuList = List.of();
+    private String window;
+    private List<Menu> menuList;
 
-    public String getLabel() {
-        return label;
+    public Menu(String key, String url, String window) {
+        this.key = key;
+        this.url = url;
+        this.window = window;
+        this.menuList = List.of();
     }
-    public void setLabel(String label) {
-        this.label = label;
+
+    public Menu(List<Menu> menuList) {
+        this.menuList = menuList;
     }
-    public String getIcon() {
-        return icon;
-    }
-    public void setIcon(String icon) {
-        this.icon = icon;
+
+    public String getKey() {
+        return key;
     }
     public String getUrl() {
         return url;
     }
-    public void setUrl(String url) {
-        this.url = url;
-    }
-    public char getWindow() {
+    public String getWindow() {
         return window;
-    }
-    public void setWindow(char window) {
-        this.window = window;
     }
     public List<Menu> getMenuList() {
         return menuList;

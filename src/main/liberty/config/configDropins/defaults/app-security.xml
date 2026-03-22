@@ -14,7 +14,7 @@
          audiences="${okta.audience}"
          jwksUri="${okta.issuer.url}/v1/keys"
          tokenHeader="Authorization"
-         userNameAttribute="sub"
+         userNameAttribute="uid"
          groupNameAttribute="groups">
   </mpJwt>
 

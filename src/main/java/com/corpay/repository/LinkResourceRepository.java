@@ -1,6 +1,7 @@
 package com.corpay.repository;
 
 import java.util.List;
+import java.util.Map;
 
 import com.corpay.dao.dbo.LinkResource;
 
@@ -13,9 +14,9 @@ public class LinkResourceRepository extends AbstractBaseRepository<LinkResource,
         super(LinkResource.class);
     }
 
-    public List<LinkResource> findMenusForInternalUser() {
+    public List<LinkResource> findMenusForInternalUser(String userId) {
         try {
-            return executeNamedQuery("LinkResource.findMenusForInternalUser");
+            return executeNamedQuery("LinkResource.findMenusForInternalUser", Map.of("userId", userId));
         } catch (Exception e) {
             return List.of();
         }
@@ -23,7 +24,7 @@ public class LinkResourceRepository extends AbstractBaseRepository<LinkResource,
 
     public List<LinkResource> findMenusForExternalUser(String userId) {
         try {
-            return executeNamedQuery("LinkResource.findMenusForExternalUser", userId);
+            return executeNamedQuery("LinkResource.findMenusForExternalUser", Map.of("userId", userId));
         } catch (Exception e) {
             return List.of();
         }
@@ -31,7 +32,7 @@ public class LinkResourceRepository extends AbstractBaseRepository<LinkResource,
 
     public List<LinkResource> findMenusForBrandedExternalUser(String userId, String brand) {
         try {
-            return executeNamedQuery("LinkResource.findMenusForBrandedExternalUser", userId, brand);
+            return executeNamedQuery("LinkResource.findMenusForBrandedExternalUser", Map.of("userId", userId, "brand", brand));
         } catch (Exception e) {
             return List.of();
         }

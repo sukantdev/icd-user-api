@@ -2,7 +2,7 @@
 <server description="DO NOT MODIFY">
 
     <library id="db2Lib" description="IBM Data Server Driver for JDBC and SQLJ">
-        <fileset dir="D:\Users\Sukant.Tiwari\Developer\drivers\db2jar" includes="*.jar"/>
+        <fileset dir="D:\Users\Sukant.Tiwari\Developer\Drivers\DB2" includes="*.jar"/>
     </library>
     <jdbcDriver libraryRef="db2Lib" id="db2Driver"/>
 </server>
